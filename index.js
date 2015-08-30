@@ -249,7 +249,7 @@ Post.prototype.send = function(callback) {
 		// simple message mode
 		if (this.simpleDisableMarkdown) {
 			// markdown support enabled by default
-			payload.mrkdwn =  false;
+			payload.mrkdwn = false;
 		}
 
 		payload.text = this.postText;

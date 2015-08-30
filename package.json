@@ -1,7 +1,7 @@
 {
 	"name": "slackpost",
-	"version": "0.1.0",
-	"description": "Node module for sending posts to Slack via the incoming webhooks API. Supports both simple and advanced message formats.",
+	"version": "0.1.1",
+	"description": "Node module for sending posts to Slack via the incoming webhooks API. Supports both simple and advanced messaging formats.",
 	"keywords": [
 		"api",
 		"chat",
