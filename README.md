@@ -31,10 +31,11 @@ For further API details see [Incoming webhooks](https://api.slack.com/incoming-w
 
 ### slackPost.post(webhookURL,postText)
 - Creates a new Slack Post message object instance.
-- The `webhookURL` must be in the same format as presented in the created Slack administration integration endpoint. Failing to provide a valid formatted URL will throw an error from this method.
-- `postText` will be used as follows:
-	- For simple messages (basic text post) will be the message text.
-	- For [advanced messages](https://api.slack.com/docs/attachments) the given `postText` will be used as the fall back text for Slack user agents/scenarios that do not support advanced messaging.
+- The `webhookURL` must be in the format provided by the Slack administration integration endpoint.
+- Failing to provide a valid formatted URL will throw an error upon calling this method.
+- Provided `postText` will be used as follows:
+	- For simple messages (text posts) will be the message text.
+	- For [advanced messages](https://api.slack.com/docs/attachments), `postText` will be used as the fall back for Slack user agents/scenarios that do not support advanced messaging.
 
 Example:
 ```js
@@ -47,17 +48,19 @@ var myNewPost = slackPost.post(
 ```
 
 ### slackPost.setUsername(name)
-- Override the default username set for the incoming webhook.
+- Override the default username for the incoming webhook.
 - Returns the current slackPost object instance.
 
 ### slackPost.setChannel(channel)
-- Override the default posting channel set for the incoming webhook with either an alternative channel or direct message username.
-- Specify either `#channel` or `@username`, anything not starting with `#` or `@` will throw an error.
+- Override the default posting channel for the incoming webhook with either:
+	- An alternative channel.
+	- Direct message Slack username.
+- Format must be one of `#channel` or `@username`, anything else will throw an error.
 - Returns the current slackPost object instance.
 
 ### slackPost.setIconEmoji(iconEmoji)
-- Override the default icon for the incoming webhook with a Slack defined emoji.
-- Provide as the emoji name _without_ leading/trailing `:`.
+- Override the default icon for incoming webhook with a Slack defined emoji.
+- Provide the desired emoji name _without_ leading or trailing `:`.
 - Returns the current slackPost object instance.
 
 Example:
@@ -65,27 +68,29 @@ Example:
 var slackPost = require('slackpost');
 
 var myNewPost = slackPost.post(WEBHOOK_URL,'Message');
+
+// set the post icon to ":chicken:"
 myNewPost.setIconEmoji('chicken');
 ```
 
 ### slackPost.setIconURL(iconURL)
-- Override the default icon for the incoming webhook with a public image URL.
+- Override the default icon for incoming webhook with a public image URL.
 - Returns the current slackPost object instance.
 
 ### slackPost.enableUnfurlLinks()
-- When enabled, Slack will automatically attempt to extract and display details for URLs referenced from within the Slack post content.
+- When enabled, Slack will automatically attempt to extract and display details for URLs referenced from within given text post content.
 - Returns the current slackPost object instance.
 
 ### slackPost.disableMarkdown()
 - When disabled, will action Slack to avoid marking up post text with Markdown-like syntax.
-- Method only applies to simple message format - by default message text is formatted.
+- Method only applies to simple message format - by default message text is automatically formatted.
 - Returns the current slackPost object instance.
 
 ### slackPost.setColor(color)
-- Sets the left hand border color used for a message - applies to the advanced message format only.
-- Color supplied as either a HTML color code (e.g. `#439fe0`) or one of `good`, `warning` or `danger`.
+- Sets the mesage left hand border color - applies to the advanced message format only.
+- `color` as either a HTML color code (e.g. `#439fe0`) or one of `good`, `warning` or `danger`.
 - Slack color names are also defined at `require('slackpost').COLOR_LIST`.
-- By default, if no color defined for an advanced post - `GOOD` will be used.
+- If no `color` is defined for an advanced post - `GOOD` will be used by default.
 - Returns the current slackPost object instance.
 
 Example:
@@ -121,7 +126,8 @@ myNewPost.setColor('#439fe0');
 - Returns the current slackPost object instance.
 
 ### slackPost.setRichText(richText[,enableMarkdown])
-- Sets the `richText` (main text) for the advanced message area. Content will automatically collapse if it contains 700+ characters or 5+ linebreaks, and will display a "Show more..." link to expand the content.
+- Sets the `richText` (main text) for the advanced message area.
+	- Content will automatically collapse if it contains 700+ characters or 5+ linebreaks, and will display a "Show more..." link to expand the content.
 - If `enableMarkdown` is true, will action Slack Markdown-like formatting of the main message text.
 - When called, will enabled the advanced message format.
 - Returns the current slackPost object instance.
@@ -142,13 +148,13 @@ var myNewPost = slackPost.post(WEBHOOK_URL,'Message');
 myNewPost.addField('Name','Don Draper',true);
 myNewPost.addField('Company','Sterling Cooper',true);
 
-// Job title on its own row
+// Job title field will appear on its own row
 myNewPost.addField('Job title','Creative Director');
 ```
 
 ### slackPost.enableFieldMarkdown()
-- When enabled, will action Slack to markup all provided field item values with Markdown-like syntax.
-- Method only applies to the advanced message format with one or more defined fields.
+- When enabled, will action Slack to markup all provided field item values via `slackPost.addField()` with Markdown-like syntax.
+- Method only applies to the advanced message format with one or more fields defined.
 - Returns the current slackPost object instance.
 
 ### slackPost.setThumbnail(URL)
