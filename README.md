@@ -31,18 +31,17 @@ For further API details see [Incoming webhooks](https://api.slack.com/incoming-w
 
 ### slackPost.post(webhookURL,postText)
 - Creates a new Slack Post message object instance.
-- The `webhookURL` must be in the format provided by the Slack administration integration endpoint.
-- Failing to provide a valid formatted URL will throw an error upon calling this method.
-- Provided `postText` will be used as follows:
-	- For simple messages (text posts) will be the message text.
-	- For [advanced messages](https://api.slack.com/docs/attachments), `postText` will be used as the fall back for Slack user agents/scenarios that do not support advanced messaging.
+- `webhookURL` must be in the format expected by the Slack administration integration endpoint - method will throw an error if web hook URL invalid.
+- `postText` is implemented as follows:
+	- For simple messages (text posts) this will be the message text.
+	- For [advanced messages](https://api.slack.com/docs/attachments) used as the fall back text for Slack user agents and scenarios that don't support advanced messaging display/rendering.
 
 Example:
 ```js
 var slackPost = require('slackpost');
 
 var myNewPost = slackPost.post(
-	'https://hooks.slack.com/services/ABCDEFGHI/012345678/fjdke456HRekdftFOGRPh21s',
+	'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s',
 	'Hello, HAL. Do you read me, HAL?'
 );
 ```
@@ -60,7 +59,7 @@ var myNewPost = slackPost.post(
 
 ### slackPost.setIconEmoji(iconEmoji)
 - Override the default icon for incoming webhook with a Slack defined emoji.
-- Provide the desired emoji name _without_ leading or trailing `:`.
+- Provide the desired emoji name _without_ leading/trailing `:` characters.
 - Returns the current slackPost object instance.
 
 Example:
@@ -78,19 +77,20 @@ myNewPost.setIconEmoji('chicken');
 - Returns the current slackPost object instance.
 
 ### slackPost.enableUnfurlLinks()
-- When enabled, Slack will automatically attempt to extract and display details for URLs referenced from within given text post content.
+- When enabled, Slack will automatically attempt to extract and display summarized details for URLs within the post content.
+- By default URLs referenced in posts made by an incoming webhook will _not_ be unfurled - unless they are deemed media content links.
 - Returns the current slackPost object instance.
 
 ### slackPost.disableMarkdown()
 - When disabled, will action Slack to avoid marking up post text with Markdown-like syntax.
-- Method only applies to simple message format - by default message text is automatically formatted.
+- Method only applies only to the simple message format, which by default will be automatically marked up.
 - Returns the current slackPost object instance.
 
 ### slackPost.setColor(color)
-- Sets the mesage left hand border color - applies to the advanced message format only.
-- `color` as either a HTML color code (e.g. `#439fe0`) or one of `good`, `warning` or `danger`.
+- Sets message left hand border color, which only applies to the advanced message format.
+- `color` is given as a HTML color code (e.g. `#439fe0`) or one of `good`, `warning` or `danger`.
 - Slack color names are also defined at `require('slackpost').COLOR_LIST`.
-- If no `color` is defined for an advanced post - `GOOD` will be used by default.
+- If no `color` has been set by a call to `slackPost.setColor()` then `GOOD` will be used by default.
 - Returns the current slackPost object instance.
 
 Example:
@@ -108,34 +108,34 @@ myNewPost.setColor('#439fe0');
 
 ### slackPost.setPreText(preText[,enableMarkdown])
 - Set the optional text that appears above the advanced message block.
-- If `enableMarkdown` is true, will action Slack Markdown-like formatting of the pretext.
-- When called, will enabled the advanced message format.
+- If `enableMarkdown` is true, will action Slack Markdown-like formatting of given `preText`.
+- When called, will enable the advanced message format.
 - Returns the current slackPost object instance.
 
 ### slackPost.setAuthor(name[,authorURL][,iconURL])
-- Sets a small display section at the top of the message for the message post author.
-- Optional `authorURL` allows setting of a URL for the author (will link both the `name` and `iconURL`).
+- Sets a small display section at the top of the message for the post author.
+- Optional `authorURL` allows setting of a URL for the author (will link both the `name` and `iconURL` within the rendered Slack post).
 - Optional `iconURL` will set a small 16x16px image to the left of the author `name`.
-- When called, will enabled the advanced message format.
+- When called, will enable the advanced message format.
 - Returns the current slackPost object instance.
 
 ### slackPost.setTitle(title[,URL])
 - Sets a `title`, in bold text near the top of the message area.
 - Optional `URL` allows for the title to be hyperlinked.
-- When called, will enabled the advanced message format.
+- When called, will enable the advanced message format.
 - Returns the current slackPost object instance.
 
 ### slackPost.setRichText(richText[,enableMarkdown])
-- Sets the `richText` (main text) for the advanced message area.
+- Sets the `richText` (main text) for an advanced message post.
 	- Content will automatically collapse if it contains 700+ characters or 5+ linebreaks, and will display a "Show more..." link to expand the content.
-- If `enableMarkdown` is true, will action Slack Markdown-like formatting of the main message text.
-- When called, will enabled the advanced message format.
+- If `enableMarkdown` is true, will action Slack Markdown-like formatting of given `richText`.
+- When called, will enable the advanced message format.
 - Returns the current slackPost object instance.
 
 ### slackPost.addField(title,value[,isShort])
-- Adds message meta data in a table format at the footer of the advanced message area. Can be called multiple times to add multiple field items.
-- Optional `isShort` controls if field data is considered short enough to allow side-by-side tabular display with other field items, otherwise field item will consume its own full table row.
-- When called, will enabled the advanced message format.
+- Adds message meta data in a tabular format at the footer of the message area. Method can be called multiple times to add multiple field items to the rendered table.
+- Optional `isShort` boolean controls if field data is considered short enough to allow side-by-side tabular display with the following/next field item, otherwise field `title`/`value` will consume its own full table row.
+- When called, will enable the advanced message format.
 - Returns the current slackPost object instance.
 
 Example:
@@ -153,21 +153,21 @@ myNewPost.addField('Job title','Creative Director');
 ```
 
 ### slackPost.enableFieldMarkdown()
-- When enabled, will action Slack to markup all provided field item values via `slackPost.addField()` with Markdown-like syntax.
-- Method only applies to the advanced message format with one or more fields defined.
+- When called, will action Slack to markup field item values added via [`slackPost.addField()`](#slackpostaddfieldtitlevalueisshort) with Markdown-like syntax.
+- Method only applies to the advanced message format with one or more fields created.
 - Returns the current slackPost object instance.
 
 ### slackPost.setThumbnail(URL)
 - Provides a public URL to an image that will be displayed as a thumbnail on the right side of an advanced message.
 - Image formats of GIF, JPEG, PNG, and BMP are supported.
-- When called, will enabled the advanced message format.
+- When called, will enable the advanced message format.
 - Returns the current slackPost object instance.
 
 ### slackPost.setImage(URL)
 - Provides a public URL to an image that will be displayed as an image inside the message area.
 - Image formats of GIF, JPEG, PNG, and BMP are supported.
 - Large images will be resized to a maximum width of 400px or a maximum height of 500px - whilst maintaining aspect ratio.
-- When called, will enabled the advanced message format.
+- When called, will enable the advanced message format.
 - Returns the current slackPost object instance.
 
 ### slackPost.send(callback)
@@ -182,7 +182,7 @@ Sending a simple message:
 var slackPost = require('slackpost');
 
 var simpleMsg = slackPost.post(
-	'https://hooks.slack.com/services/ABCDEFGHI/012345678/fjdke456HRekdftFOGRPh21s',
+	'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s',
 	'Hello, HAL. Do you read me, HAL?'
 );
 
@@ -209,7 +209,7 @@ Sending an advanced message:
 var slackPost = require('slackpost');
 
 var advancedMsg = slackPost.post(
-	'https://hooks.slack.com/services/ABCDEFGHI/012345678/fjdke456HRekdftFOGRPh21s',
+	'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s',
 	'This is my fallback text for mobile notifications and IRC users/etc.'
 );
 
