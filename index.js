@@ -144,10 +144,9 @@ Post.prototype.setImage = function(URL) {
 	return this;
 };
 
-Post.prototype.send = function(callback) {
+Post.prototype.buildPayload = function() {
 
-	// build payload to send to Slack API
-	// TODO: add payload building into a prototype function - allows for easier unit testing
+	// build payload for sending to Slack API as JSON
 	var payload = {};
 
 	if (this.username !== undefined) {
@@ -166,7 +165,6 @@ Post.prototype.send = function(callback) {
 
 	} else if (this.iconURL !== undefined) {
 		// set image URL message icon
-		// TODO: currently seems broken
 		payload.icon_url = this.iconURL;
 	}
 
@@ -177,9 +175,13 @@ Post.prototype.send = function(callback) {
 
 	// simple or advanced message mode?
 	if (
-		this.preText || this.authorName || this.postTitle ||
-		this.richText || (this.fieldList.length > 0) ||
-		this.thumbnailURL || this.imageURL
+		(this.preText !== undefined) ||
+		(this.authorName !== undefined) ||
+		(this.postTitle !== undefined) ||
+		(this.richText !== undefined) ||
+		(this.fieldList.length > 0) ||
+		(this.thumbnailURL !== undefined) ||
+		(this.imageURL !== undefined)
 	) {
 		// advanced message mode
 		var attachments = {
@@ -255,6 +257,11 @@ Post.prototype.send = function(callback) {
 		payload.text = this.postText;
 	}
 
+	return payload;
+};
+
+Post.prototype.send = function(callback) {
+
 	// make HTTPS post request to send message
 	var webhookURLMatch = WEBHOOK_URL_REGEXP.exec(this.webhookURL),
 		requestOptions = {
@@ -266,7 +273,7 @@ Post.prototype.send = function(callback) {
 			requestOptions,
 			function(response) {
 
-				// OK response from API?
+				// OK response received from Slack API?
 				if (response.statusCode != HTTP_CODE_OK) {
 					return callback(new Error('Error posting to Slack API'));
 				}
@@ -276,6 +283,6 @@ Post.prototype.send = function(callback) {
 			}
 		);
 
-	// send message JSON and close
-	request.end(JSON.stringify(payload));
+	// send message payload as JSON and end request
+	request.end(JSON.stringify(this.buildPayload()));
 };

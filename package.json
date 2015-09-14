@@ -1,7 +1,7 @@
 {
 	"name": "slackpost",
 	"version": "0.1.2",
-	"description": "Node module for sending posts to Slack via the incoming webhooks API. Supports both simple and advanced messaging formats.",
+	"description": "Send posts to Slack via the incoming webhooks API. Supporting both simple and advanced messaging formats.",
 	"keywords": [
 		"api",
 		"chat",
@@ -16,6 +16,6 @@
 		"type": "git",
 		"url": "https://github.com/magnetikonline/slackpost.git"
 	},
-	"main": "index.js",
-	"license": "MIT"
+	"license": "MIT",
+	"main": "index.js"
 }
