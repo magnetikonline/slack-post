@@ -1,7 +1,7 @@
 'use strict';
 
 var HTTP_CODE_OK = 200,
-	WEBHOOK_URL_REGEXP = /^https:\/\/(hooks\.slack\.com)(\/services\/[A-Za-z0-9\/]+)$/,
+	WEBHOOK_URL_REGEXP = /^https:\/\/(hooks\.slack\.com)(\/services\/[A-Z0-9]{9}\/[A-Z0-9]{9}\/[A-Za-z0-9\/]{24})$/,
 	COLOR_LIST = {
 		GOOD: 'good',
 		WARNING: 'warning',
@@ -40,7 +40,7 @@ Post.prototype.setUsername = function(name) {
 Post.prototype.setChannel = function(channel) {
 
 	// does channel start with [#] (other channel) or [@] (direct message)?
-	if (!/^[#@].+/.test(channel)) {
+	if (!/^[#@][^ ]+/.test(channel)) {
 		throw new Error('Invalid channel identifier');
 	}
 
@@ -250,7 +250,7 @@ Post.prototype.buildPayload = function() {
 	} else {
 		// simple message mode
 		if (this.simpleDisableMarkdown) {
-			// markdown support enabled by default
+			// markdown support is enabled by default
 			payload.mrkdwn = false;
 		}
 
