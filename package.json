@@ -1,6 +1,6 @@
 {
 	"name": "slackpost",
-	"version": "0.1.4",
+	"version": "1.1.0",
 	"description": "Send posts to Slack via the incoming webhooks API. Supporting both simple and advanced messaging formats.",
 	"keywords": [
 		"api",

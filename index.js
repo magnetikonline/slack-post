@@ -1,14 +1,14 @@
 'use strict';
 
-var HTTP_CODE_OK = 200,
+let https = require('https'),
+
+	HTTP_CODE_OK = 200,
 	WEBHOOK_URL_REGEXP = /^https:\/\/(hooks\.slack\.com)(\/services\/[A-Z0-9]{9}\/[A-Z0-9]{9}\/[A-Za-z0-9\/]{24})$/,
 	COLOR_LIST = {
 		GOOD: 'good',
 		WARNING: 'warning',
 		DANGER: 'danger'
-	},
-
-	https = require('https');
+	};
 
 
 exports.post = function(webhookURL,postText) {
@@ -147,7 +147,7 @@ Post.prototype.setImage = function(URL) {
 Post.prototype.buildPayload = function() {
 
 	// build payload for sending to Slack API as JSON
-	var payload = {};
+	let payload = {};
 
 	if (this.username !== undefined) {
 		// set custom username
@@ -184,7 +184,7 @@ Post.prototype.buildPayload = function() {
 		(this.imageURL !== undefined)
 	) {
 		// advanced message mode
-		var attachments = {
+		let attachments = {
 			// if no color given, default to 'GOOD'
 			color: this.postColor || COLOR_LIST.GOOD,
 
@@ -263,15 +263,14 @@ Post.prototype.buildPayload = function() {
 Post.prototype.send = function(callback) {
 
 	// make HTTPS post request to send message
-	var webhookURLMatch = WEBHOOK_URL_REGEXP.exec(this.webhookURL),
-		requestOptions = {
-			hostname: webhookURLMatch[1],
-			method: 'POST',
-			path: webhookURLMatch[2]
-		},
+	let webhookURLMatch = WEBHOOK_URL_REGEXP.exec(this.webhookURL),
 		request = https.request(
-			requestOptions,
-			function(response) {
+			{
+				hostname: webhookURLMatch[1],
+				method: 'POST',
+				path: webhookURLMatch[2]
+			},
+			(response) => {
 
 				// OK response received from Slack API?
 				if (response.statusCode != HTTP_CODE_OK) {

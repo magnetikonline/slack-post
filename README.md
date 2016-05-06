@@ -30,7 +30,7 @@ For further API details see [Incoming webhooks](https://api.slack.com/incoming-w
 ## Methods
 
 ### slackPost.post(webhookURL,postText)
-- Creates a new Slack Post message object instance.
+- Returns a new Slack Post message object instance.
 - `webhookURL` must be in the format expected by the Slack administration integration endpoint - method will throw an error if web hook URL invalid.
 - `postText` is implemented as follows:
 	- For simple messages (text posts) this will be the message text.
@@ -192,7 +192,7 @@ simpleMsg
 	.enableUnfurlLinks()
 	.disableMarkdown();
 
-simpleMsg.send(function (err) {
+simpleMsg.send((err) => {
 
 	if (err) {
 		// error sending message to Slack API
@@ -223,7 +223,7 @@ advancedMsg
 	)
 	.setRichText('This is some *rich-text* messaging!',true);
 
-advancedMsg.send(function (err) {
+advancedMsg.send((err) => {
 
 	if (err) {
 		// error sending message to Slack API

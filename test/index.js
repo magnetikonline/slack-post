@@ -1,15 +1,15 @@
 'use strict';
 
-var TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s',
+let assert = require('assert'),
+	slackPost = require('../index.js'),
 
-	assert = require('assert'),
-	slackPost = require('../index.js');
+	TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s';
 
 
-(function() {
+(() => {
 
 	assert.doesNotThrow(
-		function() {
+		() => {
 
 			slackPost.post(TEST_WEB_HOOK_URL);
 		},
@@ -18,7 +18,7 @@ var TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fj
 	);
 
 	assert.throws(
-		function() {
+		() => {
 
 			slackPost.post('https://invalid-hook.com/');
 		},
@@ -28,19 +28,19 @@ var TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fj
 })();
 
 
-(function() {
+(() => {
 
-	var RETURN_SELF_METHOD_LIST = [
+	let RETURN_SELF_METHOD_LIST = [
 			'setUsername','setChannel','setIconEmoji','setIconURL','enableUnfurlLinks',
 			'disableMarkdown','setColor','setPreText','setAuthor','setTitle','setRichText',
 			'addField','enableFieldMarkdown','setThumbnail','setImage'
 		],
 		testPost = slackPost.post(TEST_WEB_HOOK_URL);
 
-	RETURN_SELF_METHOD_LIST.forEach(function(methodName) {
+	RETURN_SELF_METHOD_LIST.forEach((methodName) => {
 
 		// the setChannel() method expects a valid first parameter - lets mock one
-		var param;
+		let param;
 		if (methodName == 'setChannel') {
 			param = '#dummy-channel';
 		}
@@ -53,9 +53,9 @@ var TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fj
 })();
 
 
-(function() {
+(() => {
 
-	var TEST_POST_TEXT = 'This is my testing post text',
+	let TEST_POST_TEXT = 'This is my testing post text',
 		testPost = slackPost.post(TEST_WEB_HOOK_URL,TEST_POST_TEXT),
 		payload;
 
@@ -91,9 +91,9 @@ var TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fj
 })();
 
 
-(function() {
+(() => {
 
-	var TEST_USERNAME = 'magnetikonline',
+	let TEST_USERNAME = 'magnetikonline',
 		TEST_CHANNEL = '@channel',
 		TEST_ICON_EMOJI = 'smile',
 		TEST_ICON_URL = 'http://domain.com/my-icon.png',
@@ -145,7 +145,7 @@ var TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fj
 	createPost();
 
 	assert.throws(
-		function() {
+		() => {
 
 			testPost.setChannel('invalid-channel-format');
 		},
@@ -154,7 +154,7 @@ var TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fj
 	);
 
 	assert.doesNotThrow(
-		function() {
+		() => {
 
 			testPost.setChannel(TEST_CHANNEL);
 		},
@@ -163,7 +163,7 @@ var TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fj
 	);
 
 	assert.doesNotThrow(
-		function() {
+		() => {
 
 			testPost.setChannel('@magnetikonline');
 		},
@@ -220,9 +220,9 @@ var TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fj
 })();
 
 
-(function() {
+(() => {
 
-	var TEST_FALLBACK_TEXT = 'This is my testing fall back text',
+	let TEST_FALLBACK_TEXT = 'This is my testing fall back text',
 		TEST_PRE_TEXT = 'This is my pre-text message',
 		TEST_SIDE_COLOR = '#f00',
 		TEST_AUTHOR_NAME = 'Peter Mescalchin',
