@@ -3,11 +3,12 @@
 let assert = require('assert'),
 	slackPost = require('../index.js'),
 
-	TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s';
+	TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s',
+	TEST_CHANNEL = '#test-channel',
+	TEST_CHANNEL_DIRECT_MESSAGE = '@magnetikonline';
 
 
-(() => {
-
+{
 	assert.doesNotThrow(
 		() => {
 
@@ -25,11 +26,10 @@ let assert = require('assert'),
 		Error,
 		'Calling slackPost.post() with invalid webhook URL should throw an error'
 	);
-})();
+}
 
 
-(() => {
-
+{
 	let RETURN_SELF_METHOD_LIST = [
 			'setUsername','setChannel','setIconEmoji','setIconURL','enableUnfurlLinks',
 			'disableMarkdown','setColor','setPreText','setAuthor','setTitle','setRichText',
@@ -42,7 +42,7 @@ let assert = require('assert'),
 		// the setChannel() method expects a valid first parameter - lets mock one
 		let param;
 		if (methodName == 'setChannel') {
-			param = '#dummy-channel';
+			param = TEST_CHANNEL;
 		}
 
 		assert(
@@ -50,11 +50,10 @@ let assert = require('assert'),
 			'Calling method testPost.' + methodName + '() should return itself to allow method chaining'
 		);
 	});
-})();
+}
 
 
-(() => {
-
+{
 	let TEST_POST_TEXT = 'This is my testing post text',
 		testPost = slackPost.post(TEST_WEB_HOOK_URL,TEST_POST_TEXT),
 		payload;
@@ -88,13 +87,11 @@ let assert = require('assert'),
 		payload.mrkdwn === false,
 		'Simple message Markdown rendering toggle should be set to disabled'
 	);
-})();
+}
 
 
-(() => {
-
+{
 	let TEST_USERNAME = 'magnetikonline',
-		TEST_CHANNEL = '@channel',
 		TEST_ICON_EMOJI = 'smile',
 		TEST_ICON_URL = 'http://domain.com/my-icon.png',
 		testPost,
@@ -153,6 +150,15 @@ let assert = require('assert'),
 		'Calling testPost.setChannel() with an invalid channel identifier (does not start with "#" or "@") should throw an error'
 	);
 
+	assert.throws(
+		() => {
+
+			testPost.setChannel('#channel with spaces');
+		},
+		Error,
+		'Calling testPost.setChannel() with a channel identifier containing spaces should throw an error'
+	);
+
 	assert.doesNotThrow(
 		() => {
 
@@ -165,7 +171,7 @@ let assert = require('assert'),
 	assert.doesNotThrow(
 		() => {
 
-			testPost.setChannel('@magnetikonline');
+			testPost.setChannel(TEST_CHANNEL_DIRECT_MESSAGE);
 		},
 		Error,
 		'Calling testPost.setChannel() with a valid direct message username should not throw an error'
@@ -217,11 +223,10 @@ let assert = require('assert'),
 		payload.unfurl_links === true,
 		'Post message unfurl links option not enabled for generated API request payload'
 	);
-})();
+}
 
 
-(() => {
-
+{
 	let TEST_FALLBACK_TEXT = 'This is my testing fall back text',
 		TEST_PRE_TEXT = 'This is my pre-text message',
 		TEST_SIDE_COLOR = '#f00',
@@ -442,4 +447,4 @@ let assert = require('assert'),
 		(payload.attachments[0].image_url === undefined),
 		'When advanced message post thumbnail and image URL are both set, thumbnail URL should be defined for generated API request payload'
 	);
-})();
+}

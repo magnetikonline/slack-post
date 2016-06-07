@@ -40,7 +40,7 @@ Post.prototype.setUsername = function(name) {
 Post.prototype.setChannel = function(channel) {
 
 	// does channel start with [#] (other channel) or [@] (direct message)?
-	if (!/^[#@][^ ]+/.test(channel)) {
+	if (!/^[#@][^ ]+$/.test(channel)) {
 		throw new Error('Invalid channel identifier');
 	}
 
@@ -50,7 +50,7 @@ Post.prototype.setChannel = function(channel) {
 
 Post.prototype.setIconEmoji = function(iconEmoji) {
 
-	this.iconEmoji = ':' + iconEmoji + ':';
+	this.iconEmoji = iconEmoji;
 	return this;
 };
 
@@ -161,7 +161,7 @@ Post.prototype.buildPayload = function() {
 
 	if (this.iconEmoji !== undefined) {
 		// set emoji message icon
-		payload.icon_emoji = this.iconEmoji;
+		payload.icon_emoji = `:${this.iconEmoji}:`;
 
 	} else if (this.iconURL !== undefined) {
 		// set image URL message icon
