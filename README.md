@@ -1,5 +1,5 @@
 # Slack Post
-Node module for sending posts to Slack via the incoming webhooks API. Supports both simple and advanced messaging formats.
+Node.js module for sending posts to Slack via the incoming webhooks API. Supports both simple and advanced messaging formats.
 
 [![NPM](https://nodei.co/npm/slackpost.png?downloads=true)](https://nodei.co/npm/slackpost/)
 
@@ -24,6 +24,7 @@ For further API details see [Incoming Webhooks](https://api.slack.com/incoming-w
 	- [slackPost.enableFieldMarkdown()](#slackpostenablefieldmarkdown)
 	- [slackPost.setThumbnail(URL)](#slackpostsetthumbnailurl)
 	- [slackPost.setImage(URL)](#slackpostsetimageurl)
+	- [slackPost.setFooter(text[,timestamp][,iconURL])](#slackpostsetfootertexttimestampiconurl)
 	- [slackPost.send(callback)](#slackpostsendcallback)
 - [Example usage](#example-usage)
 
@@ -158,7 +159,7 @@ myNewPost.addField('Job title','Creative Director');
 - Returns `slackPost` object instance.
 
 ### slackPost.setThumbnail(URL)
-- Provides a public URL to an image that will be displayed as a thumbnail on the right side of an advanced message.
+- Provides a public URL to an image that will be displayed as a thumbnail to the right of an advanced message.
 - Image formats of GIF, JPEG, PNG and BMP are supported.
 - When called will enable the advanced message format.
 - Returns `slackPost` object instance.
@@ -167,6 +168,13 @@ myNewPost.addField('Job title','Creative Director');
 - Provides a public URL to an image that will be displayed as an image inside the message area.
 - Image formats of GIF, JPEG, PNG and BMP are supported.
 - Large images will be resized to a maximum width of 400px or a maximum height of 500px - whilst maintaining aspect ratio.
+- When called will enable the advanced message format.
+- Returns `slackPost` object instance.
+
+### slackPost.setFooter(text[,timestamp][,iconURL])
+- Adds brief text to contextualize and identify referenced post content.
+- Optional `timestamp` provided as a [Unix timestamp](https://en.wikipedia.org/wiki/Unix_time) will display a reference date/time to the right of the footer credit.
+- Optional `iconURL`  will set a small 16x16px image to the left of the footer `text`.
 - When called will enable the advanced message format.
 - Returns `slackPost` object instance.
 

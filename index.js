@@ -144,6 +144,22 @@ Post.prototype.setImage = function(URL) {
 	return this;
 };
 
+Post.prototype.setFooter = function(text,timestamp,iconURL) {
+
+	this.footerText = text;
+	if (timestamp !== undefined) {
+		if (!/^[0-9]+$/.test(timestamp)) {
+			throw new Error('Invalid timestamp value');
+		}
+
+		this.footerTimestamp = timestamp * 1; // cast as integer
+	}
+
+	this.footerIconURL = iconURL;
+
+	return this;
+};
+
 Post.prototype.buildPayload = function() {
 
 	// build payload for sending to Slack API as JSON
@@ -181,7 +197,8 @@ Post.prototype.buildPayload = function() {
 		(this.richText !== undefined) ||
 		(this.fieldList.length > 0) ||
 		(this.thumbnailURL !== undefined) ||
-		(this.imageURL !== undefined)
+		(this.imageURL !== undefined) ||
+		(this.footerText !== undefined)
 	) {
 		// advanced message mode
 		let attachments = {
@@ -237,6 +254,19 @@ Post.prototype.buildPayload = function() {
 		} else if (this.imageURL !== undefined) {
 			// add image
 			attachments.image_url = this.imageURL;
+		}
+
+		if (this.footerText !== undefined) {
+			// add footer text and (optional) timestamp/icon
+			attachments.footer = this.footerText;
+
+			if (this.footerTimestamp !== undefined) {
+				attachments.ts = this.footerTimestamp;
+			}
+
+			if (this.footerIconURL !== undefined) {
+				attachments.footer_icon = this.footerIconURL;
+			}
 		}
 
 		if (this.advancedMarkdownList.length > 0) {

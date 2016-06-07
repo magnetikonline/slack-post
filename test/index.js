@@ -24,7 +24,7 @@ let assert = require('assert'),
 			slackPost.post('https://invalid-hook.com/');
 		},
 		Error,
-		'Calling slackPost.post() with invalid webhook URL should throw an error'
+		'Calling slackPost.post() with an invalid webhook URL should throw an error'
 	);
 }
 
@@ -33,13 +33,13 @@ let assert = require('assert'),
 	let RETURN_SELF_METHOD_LIST = [
 			'setUsername','setChannel','setIconEmoji','setIconURL','enableUnfurlLinks',
 			'disableMarkdown','setColor','setPreText','setAuthor','setTitle','setRichText',
-			'addField','enableFieldMarkdown','setThumbnail','setImage'
+			'addField','enableFieldMarkdown','setThumbnail','setImage','setFooter'
 		],
 		testPost = slackPost.post(TEST_WEB_HOOK_URL);
 
 	RETURN_SELF_METHOD_LIST.forEach((methodName) => {
 
-		// the setChannel() method expects a valid first parameter - lets mock one
+		// the setChannel() method expects a valid first parameter - lets pass one in
 		let param;
 		if (methodName == 'setChannel') {
 			param = TEST_CHANNEL;
@@ -47,7 +47,7 @@ let assert = require('assert'),
 
 		assert(
 			testPost[methodName](param) === testPost,
-			'Calling method testPost.' + methodName + '() should return itself to allow method chaining'
+			'Call to method testPost.' + methodName + '() must return itself'
 		);
 	});
 }
@@ -240,9 +240,11 @@ let assert = require('assert'),
 		TEST_FIELD_VALUE = 'Field value',
 		TEST_THUMBNAIL_URL = 'http://domain.com/thumbnail.gif',
 		TEST_IMAGE_URL = 'http://domain.com/image.gif',
+		TEST_FOOTER_TEXT = 'This is the footer text',
+		TEST_FOOTER_TIMESTAMP = 1465277828,
+		TEST_FOOTER_ICON_URL = 'http://magnetikonline.com/img/favicon.png',
 		testPost,
-		payload,
-		payloadAttachments;
+		payload;
 
 	function createPost() {
 
@@ -252,8 +254,7 @@ let assert = require('assert'),
 	function assertAttachmentsAttribute(message) {
 
 		assert(
-			Array.isArray(payload.attachments) &&
-			(payload.attachments.length == 1),
+			Array.isArray(payload.attachments) && (payload.attachments.length == 1),
 			message
 		);
 	}
@@ -445,6 +446,53 @@ let assert = require('assert'),
 	assert(
 		(payload.attachments[0].thumb_url == TEST_THUMBNAIL_URL) &&
 		(payload.attachments[0].image_url === undefined),
-		'When advanced message post thumbnail and image URL are both set, thumbnail URL should be defined for generated API request payload'
+		'When advanced message post thumbnail and image URL are both set, only the thumbnail URL should be defined for generated API request payload'
+	);
+
+	createPost();
+	testPost.setFooter(TEST_FOOTER_TEXT);
+	payload = testPost.buildPayload();
+
+	assertAttachmentsAttribute('Advanced message post API request payload should define an attachments attribute when footer is defined');
+
+	assert(
+		payload.attachments[0].footer == TEST_FOOTER_TEXT,
+		'Advanced message footer text not defined/valid for API request payload'
+	);
+
+	assert(
+		(payload.attachments[0].ts === undefined) &&
+		(payload.attachments[0].footer_icon === undefined),
+		'Advanced message post footer timestamp & icon should both be undefined when not defined for API request payload'
+	);
+
+	assert.throws(
+		() => {
+
+			testPost.setFooter(TEST_FOOTER_TEXT,'INVALID_TIMESTAMP_INTEGER');
+		},
+		Error,
+		'Calling testPost.setFooter() with an invalid timestamp should throw an error'
+	);
+
+	testPost.setFooter(TEST_FOOTER_TEXT,TEST_FOOTER_TIMESTAMP);
+	payload = testPost.buildPayload();
+
+	assert(
+		payload.attachments[0].ts == TEST_FOOTER_TIMESTAMP,
+		'Advanced message post footer timestamp not defined/valid for API request payload'
+	);
+
+	assert(
+		payload.attachments[0].footer_icon === undefined,
+		'Advanced message post footer icon should be undefined when not defined for API request payload'
+	);
+
+	testPost.setFooter(TEST_FOOTER_TEXT,TEST_FOOTER_TIMESTAMP,TEST_FOOTER_ICON_URL);
+	payload = testPost.buildPayload();
+
+	assert(
+		payload.attachments[0].footer_icon == TEST_FOOTER_ICON_URL,
+		'Advanced message post footer icon URL not defined/valid for API request payload'
 	);
 }
