@@ -495,4 +495,36 @@ let assert = require('assert'),
 		payload.attachments[0].footer_icon == TEST_FOOTER_ICON_URL,
 		'Advanced message post footer icon URL not defined/valid for API request payload'
 	);
+
+	{
+		createPost();
+
+		for (let i of [1,2]) {
+			testPost.setPreText(TEST_PRE_TEXT,true);
+			testPost.setRichText(TEST_POST_RICH_TEXT,true);
+			testPost.enableFieldMarkdown();
+		}
+
+		payload = testPost.buildPayload();
+		function hasMarkdownAttachmentDuplicates(keyList) {
+
+			var seenKeyList = [];
+			for (let keyItem of keyList) {
+				if (seenKeyList.indexOf(keyItem) >= 0) {
+					// found duplicate keys
+					return true;
+				}
+
+				seenKeyList.push(keyItem);
+			}
+
+			// no dupes found
+			return false;
+		}
+
+		assert(
+			hasMarkdownAttachmentDuplicates(payload.attachments[0].mrkdwn_in) == false,
+			'Advanced message post markdown formatting keys should not contain duplicates'
+		);
+	}
 }

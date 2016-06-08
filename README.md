@@ -174,7 +174,7 @@ myNewPost.addField('Job title','Creative Director');
 ### slackPost.setFooter(text[,timestamp][,iconURL])
 - Adds brief text to contextualize and identify referenced post content.
 - Optional `timestamp` provided as a [Unix timestamp](https://en.wikipedia.org/wiki/Unix_time) will display a reference date/time to the right of the footer credit.
-- Optional `iconURL`  will set a small 16x16px image to the left of the footer `text`.
+- Optional `iconURL` will set a small 16x16px image to the left of the footer `text`.
 - When called will enable the advanced message format.
 - Returns `slackPost` object instance.
 

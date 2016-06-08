@@ -28,7 +28,7 @@ function Post(webhookURL,postText) {
 	this.webhookURL = webhookURL;
 	this.postText = postText;
 	this.fieldList = [];
-	this.advancedMarkdownList = [];
+	this.advancedMarkdownCollection = {};
 }
 
 Post.prototype.setUsername = function(name) {
@@ -82,7 +82,7 @@ Post.prototype.setPreText = function(preText,enableMarkdown) {
 
 	this.preText = preText;
 	if (enableMarkdown) {
-		this.advancedMarkdownList.push('pretext');
+		this.advancedMarkdownCollection.pretext = true;
 	}
 
 	return this;
@@ -109,7 +109,7 @@ Post.prototype.setRichText = function(richText,enableMarkdown) {
 
 	this.richText = richText;
 	if (enableMarkdown) {
-		this.advancedMarkdownList.push('text');
+		this.advancedMarkdownCollection.text = true;
 	}
 
 	return this;
@@ -128,7 +128,7 @@ Post.prototype.addField = function(title,value,isShort) {
 
 Post.prototype.enableFieldMarkdown = function() {
 
-	this.advancedMarkdownList.push('fields');
+	this.advancedMarkdownCollection.fields = true;
 	return this;
 };
 
@@ -269,9 +269,10 @@ Post.prototype.buildPayload = function() {
 			}
 		}
 
-		if (this.advancedMarkdownList.length > 0) {
+		let advancedMarkdownList = Object.keys(this.advancedMarkdownCollection);
+		if (advancedMarkdownList.length > 0) {
 			// enable markdown for and/or pretext/text/fields
-			attachments.mrkdwn_in = this.advancedMarkdownList;
+			attachments.mrkdwn_in = advancedMarkdownList;
 		}
 
 		// add attachments data structure to payload
