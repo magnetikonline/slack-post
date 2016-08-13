@@ -31,7 +31,7 @@ For further API details see [Incoming Webhooks](https://api.slack.com/incoming-w
 ## Methods
 
 ### slackPost.post(webhookURL,postText)
-- Returns a new Slack Post message object instance.
+- Returns new `slackPost` message instance.
 - `webhookURL` must be in the format expected by the Slack administration integration endpoint - method will throw an error if web hook URL invalid.
 - `postText` is implemented as follows:
 	- For simple messages (text posts) this will be the message text.
@@ -49,19 +49,19 @@ var myNewPost = slackPost.post(
 
 ### slackPost.setUsername(name)
 - Override default username for the incoming webhook.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.setChannel(channel)
 - Override default target channel for the incoming webhook with either:
 	- An alternative channel.
 	- Direct message Slack username.
 - Format must be one of `#channel` or `@username`, anything else will throw an error.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.setIconEmoji(iconEmoji)
 - Override default icon for incoming webhook with a defined emoji.
 - Provide desired emoji name _without_ leading/trailing `:` characters.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 Example:
 ```js
@@ -75,24 +75,24 @@ myNewPost.setIconEmoji('chicken');
 
 ### slackPost.setIconURL(iconURL)
 - Override the default icon for incoming webhook with a public image URL.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.enableUnfurlLinks()
 - When enabled, Slack will automatically attempt to extract and display summarized details for URLs within the post content.
 - By default URLs referenced in posts made by an incoming webhook will _not_ be unfurled - unless they are deemed [media content links](https://api.slack.com/docs/unfurling).
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.disableMarkdown()
 - When disabled, Slack will avoid marking up post text with Markdown-like syntax.
 - Method applies only to the _simple message format_, which by default is automatically marked up.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.setColor(color)
 - Sets left hand border color for advanced message format posts.
 - Given `color` is either a HTML color code (e.g. `#439fe0`) or one of `good`, `warning` or `danger`.
 - Color names are also defined at `require('slackpost').COLOR_LIST`.
 - If `color` is `undefined` then `GOOD` will be used by default.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 Example:
 ```js
@@ -111,33 +111,33 @@ myNewPost.setColor('#439fe0');
 - Set the optional text that appears above the advanced message block.
 - If `enableMarkdown` is true, will action Slack Markdown-like formatting of given `preText`.
 - When called will enable the advanced message format.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.setAuthor(name[,authorURL][,iconURL])
 - Sets a small display section at the top of the message for the post author.
 - Optional `authorURL` allows setting of a URL for the author (will link both the `name` and `iconURL` within the rendered Slack post).
 - Optional `iconURL` will set a small 16x16px image to the left of the author `name`.
 - When called will enable the advanced message format.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.setTitle(title[,URL])
 - Sets a `title`, in bold text near the top of the message area.
 - Optional `URL` allows for the title to be hyperlinked.
 - When called will enable the advanced message format.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.setRichText(richText[,enableMarkdown])
 - Sets the `richText` (main text) for an advanced message post.
 	- Content will automatically collapse if it contains 700+ characters or 5+ linebreaks, and will display a "Show more..." link to expand the content.
 - If `enableMarkdown` is true, will action Slack Markdown-like formatting of given `richText`.
 - When called will enable the advanced message format.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.addField(title,value[,isShort])
 - Adds message meta data in a tabular format at the footer of the message area. Method can be called multiple times to add multiple field items to the rendered table.
 - Optional `isShort` boolean controls if field data is considered short enough to allow side-by-side tabular display with the following/next field item, otherwise field `title`/`value` will consume its own full table row.
 - When called will enable the advanced message format.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 Example:
 ```js
@@ -156,27 +156,27 @@ myNewPost.addField('Job title','Creative Director');
 ### slackPost.enableFieldMarkdown()
 - When called, will action Slack to markup field item values added via [`slackPost.addField()`](#slackpostaddfieldtitlevalueisshort) with Markdown-like syntax.
 - Method only applies to the advanced message format with one or more fields created.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.setThumbnail(URL)
 - Provides a public URL to an image that will be displayed as a thumbnail to the right of an advanced message.
 - Image formats of GIF, JPEG, PNG and BMP are supported.
 - When called will enable the advanced message format.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.setImage(URL)
 - Provides a public URL to an image that will be displayed as an image inside the message area.
 - Image formats of GIF, JPEG, PNG and BMP are supported.
 - Large images will be resized to a maximum width of 400px or a maximum height of 500px - whilst maintaining aspect ratio.
 - When called will enable the advanced message format.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.setFooter(text[,timestamp][,iconURL])
 - Adds brief text to contextualize and identify referenced post content.
 - Optional `timestamp` provided as a [Unix timestamp](https://en.wikipedia.org/wiki/Unix_time) will display a reference date/time to the right of the footer credit.
 - Optional `iconURL` will set a small 16x16px image to the left of the footer `text`.
 - When called will enable the advanced message format.
-- Returns `slackPost` object instance.
+- Returns `slackPost` instance.
 
 ### slackPost.send(callback)
 - Sends a composed message, using the methods presented above to the Slack incoming webhook API endpoint.
