@@ -508,7 +508,7 @@ let assert = require('assert'),
 		payload = testPost.buildPayload();
 		function hasMarkdownAttachmentDuplicates(keyList) {
 
-			var seenKeyList = [];
+			let seenKeyList = [];
 			for (let keyItem of keyList) {
 				if (seenKeyList.indexOf(keyItem) >= 0) {
 					// found duplicate keys

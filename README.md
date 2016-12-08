@@ -39,9 +39,9 @@ For further API details refer to the [Incoming Webhooks](https://api.slack.com/i
 
 Example:
 ```js
-var slackPost = require('slackpost');
+let slackPost = require('slackpost');
 
-var myNewPost = slackPost.post(
+let myNewPost = slackPost.post(
 	'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s',
 	'Hello, HAL. Do you read me, HAL?'
 );
@@ -65,9 +65,9 @@ var myNewPost = slackPost.post(
 
 Example:
 ```js
-var slackPost = require('slackpost');
+let slackPost = require('slackpost');
 
-var myNewPost = slackPost.post(WEBHOOK_URL,'Message');
+let myNewPost = slackPost.post(WEBHOOK_URL,'Message');
 
 // set the post icon to ":chicken:"
 myNewPost.setIconEmoji('chicken');
@@ -96,14 +96,14 @@ myNewPost.setIconEmoji('chicken');
 
 Example:
 ```js
-var slackPost = require('slackpost');
+let slackPost = require('slackpost');
 
-var myNewPost = slackPost.post(WEBHOOK_URL,'Message');
+let myNewPost = slackPost.post(WEBHOOK_URL,'Message');
 
 // color options
-myNewPost.setColor(slackPost.COLOR_LIST['GOOD']);
-myNewPost.setColor(slackPost.COLOR_LIST['WARNING']);
-myNewPost.setColor(slackPost.COLOR_LIST['DANGER']);
+myNewPost.setColor(slackPost.COLOR_LIST.GOOD);
+myNewPost.setColor(slackPost.COLOR_LIST.WARNING);
+myNewPost.setColor(slackPost.COLOR_LIST.DANGER);
 myNewPost.setColor('#439fe0');
 ```
 
@@ -141,9 +141,9 @@ myNewPost.setColor('#439fe0');
 
 Example:
 ```js
-var slackPost = require('slackpost');
+let slackPost = require('slackpost');
 
-var myNewPost = slackPost.post(WEBHOOK_URL,'Message');
+let myNewPost = slackPost.post(WEBHOOK_URL,'Message');
 
 // add some fields - Name and Company will appear side-by-side
 myNewPost.addField('Name','Don Draper',true);
@@ -187,9 +187,9 @@ myNewPost.addField('Job title','Creative Director');
 ## Example usage
 Sending a simple message:
 ```js
-var slackPost = require('slackpost');
+let slackPost = require('slackpost');
 
-var simpleMsg = slackPost.post(
+let simpleMsg = slackPost.post(
 	'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s',
 	'Hello, HAL. Do you read me, HAL?'
 );
@@ -214,9 +214,9 @@ simpleMsg.send((err) => {
 
 Sending an advanced message:
 ```js
-var slackPost = require('slackpost');
+let slackPost = require('slackpost');
 
-var advancedMsg = slackPost.post(
+let advancedMsg = slackPost.post(
 	'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s',
 	'This is my fallback text for mobile notifications and IRC users/etc.'
 );
