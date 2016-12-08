@@ -1,11 +1,11 @@
 # Slack Post
-Node.js module for sending posts to Slack via the incoming webhooks API. Supports both simple and advanced messaging formats.
+Node.js module for sending posts to [Slack](https://slack.com/) via the [incoming webhooks API](https://api.slack.com/incoming-webhooks). Supports both simple and advanced messaging formats.
 
 [![NPM](https://nodei.co/npm/slackpost.png?downloads=true)](https://nodei.co/npm/slackpost/)
 
 An existing incoming webhook integration will be required and can be created via the [Slack administration system](https://my.slack.com/services/new/incoming-webhook/) to successfully use this module.
 
-For further API details see [Incoming Webhooks](https://api.slack.com/incoming-webhooks) and [Message Attachments (advanced messaging)](https://api.slack.com/docs/attachments) Slack API documents.
+For further API details refer to the [Incoming Webhooks](https://api.slack.com/incoming-webhooks) and [Message Attachments (advanced messaging)](https://api.slack.com/docs/message-attachments) documents.
 
 - [Methods](#methods)
 	- [slackPost.post(webhookURL,postText)](#slackpostpostwebhookurlposttext)
@@ -35,7 +35,7 @@ For further API details see [Incoming Webhooks](https://api.slack.com/incoming-w
 - `webhookURL` must be in the format expected by the Slack administration integration endpoint - method will throw an error if web hook URL invalid.
 - `postText` is implemented as follows:
 	- For simple messages (text posts) this will be the message text.
-	- For [advanced messages](https://api.slack.com/docs/attachments) will be used as the fall back text for scenarios where advanced rendering is unsupported.
+	- For [advanced messages](https://api.slack.com/docs/message-attachments) will be used as the fall back text for scenarios where advanced rendering is unsupported.
 
 Example:
 ```js
@@ -79,7 +79,7 @@ myNewPost.setIconEmoji('chicken');
 
 ### slackPost.enableUnfurlLinks()
 - When enabled, Slack will automatically attempt to extract and display summarized details for URLs within the post content.
-- By default URLs referenced in posts made by an incoming webhook will _not_ be unfurled - unless they are deemed [media content links](https://api.slack.com/docs/unfurling).
+- By default URLs referenced in posts made by an incoming webhook will _not_ be unfurled - unless they are deemed [media content links](https://api.slack.com/docs/message-attachments#unfurling).
 - Returns `slackPost` instance.
 
 ### slackPost.disableMarkdown()
