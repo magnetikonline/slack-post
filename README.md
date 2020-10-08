@@ -38,6 +38,7 @@ For further API details refer to the [Incoming Webhooks](https://api.slack.com/i
 	- For [advanced messages](https://api.slack.com/docs/message-attachments) will be used as the fall back text for scenarios where advanced rendering is unsupported.
 
 Example:
+
 ```js
 let slackPost = require('slackpost');
 
@@ -64,6 +65,7 @@ let myNewPost = slackPost.post(
 - Returns `slackPost` instance.
 
 Example:
+
 ```js
 let slackPost = require('slackpost');
 
@@ -95,6 +97,7 @@ myNewPost.setIconEmoji('chicken');
 - Returns `slackPost` instance.
 
 Example:
+
 ```js
 let slackPost = require('slackpost');
 
@@ -140,6 +143,7 @@ myNewPost.setColor('#439fe0');
 - Returns `slackPost` instance.
 
 Example:
+
 ```js
 let slackPost = require('slackpost');
 
@@ -180,12 +184,13 @@ myNewPost.addField('Job title','Creative Director');
 
 ### slackPost.send(callback)
 - Sends a composed message, using the methods presented above to the Slack incoming webhook API endpoint.
-- `callback` is expected to be a function, receiving one parameter:
-	- Upon success parameter will be `null`.
-	- In case of error, parameter will be an instance of `Error()`.
+- `callback` is a function, receiving exactly one argument:
+	- Upon success argument will be `null`.
+	- In case of error, argument will be an instance of `Error()`.
 
 ## Example usage
 Sending a simple message:
+
 ```js
 let slackPost = require('slackpost');
 
@@ -213,6 +218,7 @@ simpleMsg.send((err) => {
 ```
 
 Sending an advanced message:
+
 ```js
 let slackPost = require('slackpost');
 

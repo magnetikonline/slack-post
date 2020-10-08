@@ -1,6 +1,8 @@
+#!/usr/bin/env node
+
 'use strict';
 
-let assert = require('assert'),
+const assert = require('assert').strict,
 	slackPost = require('../index.js'),
 
 	TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s',
