@@ -3,7 +3,7 @@
 let https = require('https'),
 
 	HTTP_CODE_OK = 200,
-	WEBHOOK_URL_REGEXP = /^https:\/\/(hooks\.slack\.com)(\/services\/[A-Z0-9]{9}\/[A-Z0-9]{9}\/[A-Za-z0-9\/]{24})$/,
+	WEBHOOK_URL_REGEXP = /^https:\/\/(hooks\.slack\.com)(\/services\/[A-Z0-9]{9}\/[A-Z0-9]{9,}\/[A-Za-z0-9\/]{24})$/,
 	COLOR_LIST = {
 		GOOD: 'good',
 		WARNING: 'warning',
