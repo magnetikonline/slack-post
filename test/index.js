@@ -2,7 +2,7 @@
 
 'use strict';
 
-const assert = require('assert').strict,
+const assert = require('assert/strict'),
 	slackPost = require('../index.js'),
 
 	TEST_WEB_HOOK_URL = 'https://hooks.slack.com/services/ABCDEF012/012345ABC/fjdke456HRekdftFOGRPh21s',
