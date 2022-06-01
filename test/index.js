@@ -31,10 +31,10 @@ const assert = require('assert/strict'),
 
 {
 	let RETURN_SELF_METHOD_LIST = [
-			'setUsername','setChannel','setIconEmoji','setIconURL','enableUnfurlLinks',
-			'disableMarkdown','setColor','setPreText','setAuthor','setTitle','setRichText',
-			'addField','enableFieldMarkdown','setThumbnail','setImage','setFooter'
-		],
+		'setUsername','setChannel','setIconEmoji','setIconURL','enableUnfurlLinks',
+		'disableMarkdown','setColor','setPreText','setAuthor','setTitle','setRichText',
+		'addField','enableFieldMarkdown','setThumbnail','setImage','setFooter',
+	],
 		testPost = slackPost.post(TEST_WEB_HOOK_URL);
 
 	RETURN_SELF_METHOD_LIST.forEach((methodName) => {

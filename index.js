@@ -7,7 +7,7 @@ let https = require('https'),
 	COLOR_LIST = {
 		GOOD: 'good',
 		WARNING: 'warning',
-		DANGER: 'danger'
+		DANGER: 'danger',
 	};
 
 
@@ -106,7 +106,7 @@ Post.prototype.addField = function(title,value,isShort) {
 	this.fieldList.push({
 		title: title,
 		value: value,
-		short: !!isShort
+		short: !!isShort,
 	});
 
 	return this;
@@ -279,7 +279,7 @@ Post.prototype.send = function(callback) {
 			{
 				hostname: webhookURLMatch[1],
 				method: 'POST',
-				path: webhookURLMatch[2]
+				path: webhookURLMatch[2],
 			},
 			(response) => {
 
