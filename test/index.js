@@ -13,7 +13,6 @@ const assert = require('assert/strict'),
 {
 	assert.doesNotThrow(
 		() => {
-
 			slackPost.post(TEST_WEB_HOOK_URL);
 		},
 		Error,
@@ -22,7 +21,6 @@ const assert = require('assert/strict'),
 
 	assert.throws(
 		() => {
-
 			slackPost.post('https://invalid-hook.com/');
 		},
 		Error,
@@ -40,7 +38,6 @@ const assert = require('assert/strict'),
 		testPost = slackPost.post(TEST_WEB_HOOK_URL);
 
 	RETURN_SELF_METHOD_LIST.forEach((methodName) => {
-
 		// the setChannel() method expects a valid first parameter - lets pass one in
 		let param;
 		if (methodName == 'setChannel') {
@@ -100,7 +97,6 @@ const assert = require('assert/strict'),
 		payload;
 
 	function createPost() {
-
 		testPost = slackPost.post(TEST_WEB_HOOK_URL);
 	}
 
@@ -145,7 +141,6 @@ const assert = require('assert/strict'),
 
 	assert.throws(
 		() => {
-
 			testPost.setChannel('invalid-channel-format');
 		},
 		Error,
@@ -154,7 +149,6 @@ const assert = require('assert/strict'),
 
 	assert.throws(
 		() => {
-
 			testPost.setChannel('#channel with spaces');
 		},
 		Error,
@@ -163,7 +157,6 @@ const assert = require('assert/strict'),
 
 	assert.doesNotThrow(
 		() => {
-
 			testPost.setChannel(TEST_CHANNEL);
 		},
 		Error,

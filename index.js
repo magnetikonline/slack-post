@@ -12,7 +12,6 @@ let https = require('https'),
 
 
 exports.post = function(webhookURL,postText) {
-
 	// valid webhook URL?
 	if (!WEBHOOK_URL_REGEXP.test(webhookURL)) {
 		throw new Error('Invalid Slack Webhook URL');
@@ -24,7 +23,6 @@ exports.post = function(webhookURL,postText) {
 exports.COLOR_LIST = COLOR_LIST;
 
 function Post(webhookURL,postText) {
-
 	this.webhookURL = webhookURL;
 	this.postText = postText;
 	this.fieldList = [];
@@ -32,13 +30,11 @@ function Post(webhookURL,postText) {
 }
 
 Post.prototype.setUsername = function(name) {
-
 	this.username = name;
 	return this;
 };
 
 Post.prototype.setChannel = function(channel) {
-
 	// does channel start with [#] (other channel) or [@] (direct message)?
 	if (!/^[#@][^ ]+$/.test(channel)) {
 		throw new Error('Invalid channel identifier');
@@ -49,37 +45,31 @@ Post.prototype.setChannel = function(channel) {
 };
 
 Post.prototype.setIconEmoji = function(iconEmoji) {
-
 	this.iconEmoji = iconEmoji;
 	return this;
 };
 
 Post.prototype.setIconURL = function(iconURL) {
-
 	this.iconURL = iconURL;
 	return this;
 };
 
 Post.prototype.enableUnfurlLinks = function() {
-
 	this.unfurlLinks = true;
 	return this;
 };
 
 Post.prototype.disableMarkdown = function() {
-
 	this.simpleDisableMarkdown = true;
 	return this;
 };
 
 Post.prototype.setColor = function(color) {
-
 	this.postColor = color;
 	return this;
 };
 
 Post.prototype.setPreText = function(preText,enableMarkdown) {
-
 	this.preText = preText;
 	if (enableMarkdown) {
 		this.advancedMarkdownCollection.pretext = true;
@@ -89,7 +79,6 @@ Post.prototype.setPreText = function(preText,enableMarkdown) {
 };
 
 Post.prototype.setAuthor = function(name,authorURL,iconURL) {
-
 	this.authorName = name;
 	this.authorURL = authorURL;
 	this.authorIconURL = iconURL;
@@ -98,7 +87,6 @@ Post.prototype.setAuthor = function(name,authorURL,iconURL) {
 };
 
 Post.prototype.setTitle = function(title,URL) {
-
 	this.postTitle = title;
 	this.postTitleURL = URL;
 
@@ -106,7 +94,6 @@ Post.prototype.setTitle = function(title,URL) {
 };
 
 Post.prototype.setRichText = function(richText,enableMarkdown) {
-
 	this.richText = richText;
 	if (enableMarkdown) {
 		this.advancedMarkdownCollection.text = true;
@@ -116,7 +103,6 @@ Post.prototype.setRichText = function(richText,enableMarkdown) {
 };
 
 Post.prototype.addField = function(title,value,isShort) {
-
 	this.fieldList.push({
 		title: title,
 		value: value,
@@ -127,25 +113,21 @@ Post.prototype.addField = function(title,value,isShort) {
 };
 
 Post.prototype.enableFieldMarkdown = function() {
-
 	this.advancedMarkdownCollection.fields = true;
 	return this;
 };
 
 Post.prototype.setThumbnail = function(URL) {
-
 	this.thumbnailURL = URL;
 	return this;
 };
 
 Post.prototype.setImage = function(URL) {
-
 	this.imageURL = URL;
 	return this;
 };
 
 Post.prototype.setFooter = function(text,timestamp,iconURL) {
-
 	this.footerText = text;
 	if (timestamp !== undefined) {
 		if (!/^[0-9]+$/.test(timestamp)) {
@@ -161,7 +143,6 @@ Post.prototype.setFooter = function(text,timestamp,iconURL) {
 };
 
 Post.prototype.buildPayload = function() {
-
 	// build payload for sending to Slack API as JSON
 	let payload = {};
 
@@ -292,7 +273,6 @@ Post.prototype.buildPayload = function() {
 };
 
 Post.prototype.send = function(callback) {
-
 	// make HTTPS post request to send message
 	let webhookURLMatch = WEBHOOK_URL_REGEXP.exec(this.webhookURL),
 		request = https.request(
