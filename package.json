@@ -8,11 +8,11 @@
 		"message",
 		"slack"
 	],
+	"license": "MIT",
 	"author": "Peter Mescalchin (http://magnetikonline.com)",
+	"main": "index.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/magnetikonline/slackpost.git"
-	},
-	"license": "MIT",
-	"main": "index.js"
+		"url": "git+https://github.com/magnetikonline/slackpost.git"
+	}
 }
