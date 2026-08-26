@@ -463,7 +463,6 @@ const assert = require('assert/strict'),
 
 	assert.throws(
 		() => {
-
 			testPost.setFooter(TEST_FOOTER_TEXT,'INVALID_TIMESTAMP_INTEGER');
 		},
 		Error,
